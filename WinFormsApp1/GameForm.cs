@@ -1,6 +1,8 @@
 using GameProjectOop.Core;
 using GameProjectOop.Entities;
 using GameProjectOop.Extensions;
+using GameProjectOop.Movements;
+
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -11,6 +13,14 @@ namespace WinFormsApp1
 {
     public partial class GameForm : Form
     {
+
+        Player player;
+        KeyboardMovement keyboardMovement;
+        List<PowerUp> powerUps = new List<PowerUp>();
+        Random rand = new Random();
+
+
+
         List<Bullet> bullets = new List<Bullet>();
 
         bool goLeft, goRight, goUp, goDown, gameOver;
@@ -33,43 +43,58 @@ namespace WinFormsApp1
 
         private void GameForm_Load(object sender, EventArgs e)
         {
+            keyboardMovement = new KeyboardMovement
+            {
+                Speed = 10f
+            };
+
+            player = new Player
+            {
+                Movement = keyboardMovement,
+                Position = new PointF(pictureBox1.Left, pictureBox1.Top)
+            };
+            SpawnPowerUp();
 
         }
 
+
         private void MainTimerEvent(object sender, EventArgs e)
         {
-            if (goLeft && pictureBox1.Left > 0)
-            {
-                pictureBox1.Left -= speed;
-            }
+            // Update player (movement happens here)
+            player.Update(null);
 
-            if (goRight && pictureBox1.Left + pictureBox1.Width < ClientSize.Width)
-            {
-                pictureBox1.Left += speed;
-            }
+            // Sync player position to PictureBox
+            pictureBox1.Left = (int)player.Position.X;
+            pictureBox1.Top = (int)player.Position.Y;
 
-            if (goUp && pictureBox1.Top > 0)
-            {
-                pictureBox1.Top -= speed;
-            }
-
-            if (goDown && pictureBox1.Top + pictureBox1.Height < ClientSize.Height)
-            {
-                pictureBox1.Top += speed;
-            }
+            // Update bullets
             for (int i = bullets.Count - 1; i >= 0; i--)
             {
                 bullets[i].Update(null);
 
                 if (!bullets[i].IsActive)
-                {
                     bullets.RemoveAt(i);
+            }
+
+            this.Invalidate();
+            for (int i = powerUps.Count - 1; i >= 0; i--)
+            {
+                powerUps[i].Update(null);
+
+                if (!powerUps[i].IsActive)
+                    powerUps.RemoveAt(i);
+            }
+            foreach (PowerUp powerUp in powerUps)
+            {
+                if (player.Bounds.IntersectsWith(powerUp.Bounds))
+                {
+                    powerUp.OnCollision(player);
                 }
             }
-            this.Invalidate();
 
 
         }
+
         private void GameKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Left)
@@ -138,21 +163,17 @@ namespace WinFormsApp1
 
         private void ShootBullet(string direction)
         {
-            
-
             Bullet bullet = new Bullet();
 
             // bullet size
             bullet.Size = new SizeF(10, 4);
 
-            // bullet start position (player center)
+            // bullet start position (player center - LOGIC position)
             bullet.Position = new PointF(
-                pictureBox1.Left + pictureBox1.Width / 2,
-                pictureBox1.Top + pictureBox1.Height / 2
+                player.Position.X + pictureBox1.Width / 2,
+                player.Position.Y + pictureBox1.Height / 2
+            );
 
-             );
-
-            // direction based velocity (NO switch-case)
             if (direction == "left")
                 bullet.Velocity = new PointF(-15, 0);
 
@@ -166,8 +187,8 @@ namespace WinFormsApp1
                 bullet.Velocity = new PointF(0, 15);
 
             bullets.Add(bullet);
-            
         }
+
 
 
         private void MakeZombie() { }
@@ -180,6 +201,34 @@ namespace WinFormsApp1
             {
                 b.Draw(e.Graphics);
             }
+            foreach (PowerUp powerUp in powerUps)
+            {
+                powerUp.Draw(e.Graphics);
+            }
+
         }
+        private void SpawnPowerUp()
+        {
+            PowerUp p = new PowerUp();
+
+            p.Size = new SizeF(30, 30);
+
+            // center area ke andar random position
+            int minX = ClientSize.Width / 4;
+            int maxX = ClientSize.Width * 3 / 4;
+
+            int minY = ClientSize.Height / 4;
+            int maxY = ClientSize.Height * 3 / 4;
+
+            p.Position = new PointF(
+                rand.Next(minX, maxX),
+                rand.Next(minY, maxY)
+            );
+
+            powerUps.Add(p);
+        }
+
+
+
     }
 }

@@ -14,7 +14,7 @@ namespace GameProjectOop.Movements
     {
         public float Speed { get; set; } = 5f;
 
-
+        public RectangleF Bounds { get; set; }
         public void Move(GameObject obj, GameTime gameTime)
         {
             if (Keyboard.IsKeyPressed(Key.LeftArrow))
@@ -29,9 +29,21 @@ namespace GameProjectOop.Movements
             if (Keyboard.IsKeyPressed(Key.DownArrow))
                 obj.Position = new PointF(obj.Position.X, obj.Position.Y + Speed);
 
+            float x = obj.Position.X;
+            float y = obj.Position.Y;
+
+            // clamp X
+            if (x < 0) x = 0;
+            if (x > 1000 - obj.Size.Width) x = 1000 - obj.Size.Width;
+
+            // clamp Y
+            if (y < 0) y = 0;
+            if (y > 600 - obj.Size.Height) y = 600 - obj.Size.Height;
+
+            obj.Position = new PointF(x, y);
 
         }
-        
+
 
 
     }

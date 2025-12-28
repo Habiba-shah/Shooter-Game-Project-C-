@@ -82,9 +82,9 @@
             // pictureBox1
             // 
             pictureBox1.Image = GameProjectOop.Properties.Resources.up2;
-            pictureBox1.Location = new Point(596, 634);
+            pictureBox1.Location = new Point(529, 605);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(69, 97);
+            pictureBox1.Size = new Size(91, 110);
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
