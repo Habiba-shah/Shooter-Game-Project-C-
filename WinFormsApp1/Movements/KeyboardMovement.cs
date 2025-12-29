@@ -32,13 +32,20 @@ namespace GameProjectOop.Movements
             float x = obj.Position.X;
             float y = obj.Position.Y;
 
-            // clamp X
-            if (x < 0) x = 0;
-            if (x > 1000 - obj.Size.Width) x = 1000 - obj.Size.Width;
+            // clamp X using REAL screen bounds
+            if (x < Bounds.Left)
+                x = Bounds.Left;
 
-            // clamp Y
-            if (y < 0) y = 0;
-            if (y > 600 - obj.Size.Height) y = 600 - obj.Size.Height;
+            if (x + obj.Size.Width > Bounds.Right)
+                x = Bounds.Right - obj.Size.Width;
+
+            // clamp Y using REAL screen bounds
+            if (y < Bounds.Top)
+                y = Bounds.Top;
+
+            if (y + obj.Size.Height > Bounds.Bottom)
+                y = Bounds.Bottom - obj.Size.Height;
+
 
             obj.Position = new PointF(x, y);
 

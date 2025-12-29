@@ -13,7 +13,11 @@ using System.Threading.Tasks;
 namespace GameProjectOop.Entities
 {
     public class Player : GameObject
+
+
     {
+        public int Ammo { get; set; } = 10;
+
         // Movement strategy: demonstrates composition over inheritance.
         // Different movement behaviors can be injected (KeyboardMovement, PatrolMovement, etc.).
         public IMovement? Movement { get; set; }

@@ -4,6 +4,7 @@ using GameProjectOop.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,10 @@ namespace GameProjectOop.Extensions
         /// PowerUp draws as a green ellipse — demonstrates polymorphic drawing.
         public override void Draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Green, Bounds);
+            if (IsActive)
+            {
+                g.DrawImage(Sprite, Bounds);
+            }
         }
 
         /// When a player collides, apply the effect and deactivate. Encapsulates pickup logic here.

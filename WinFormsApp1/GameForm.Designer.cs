@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             txtammo = new Label();
-            txtScore = new Label();
             label1 = new Label();
             HealthBar = new ProgressBar();
             pictureBox1 = new PictureBox();
@@ -48,17 +47,6 @@
             txtammo.Size = new Size(91, 28);
             txtammo.TabIndex = 0;
             txtammo.Text = "Ammo:0";
-            // 
-            // txtScore
-            // 
-            txtScore.AutoSize = true;
-            txtScore.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtScore.ForeColor = SystemColors.ControlLightLight;
-            txtScore.Location = new Point(341, 9);
-            txtScore.Name = "txtScore";
-            txtScore.Size = new Size(69, 28);
-            txtScore.TabIndex = 1;
-            txtScore.Text = "Kills:0";
             // 
             // label1
             // 
@@ -82,9 +70,9 @@
             // pictureBox1
             // 
             pictureBox1.Image = GameProjectOop.Properties.Resources.up2;
-            pictureBox1.Location = new Point(529, 605);
+            pictureBox1.Location = new Point(529, 606);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(91, 110);
+            pictureBox1.Size = new Size(68, 109);
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
@@ -99,11 +87,10 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
-            ClientSize = new Size(1180, 743);
+            ClientSize = new Size(1145, 743);
             Controls.Add(pictureBox1);
             Controls.Add(HealthBar);
             Controls.Add(label1);
-            Controls.Add(txtScore);
             Controls.Add(txtammo);
             Name = "GameForm";
             Text = "Enemy ShootOut Game";
@@ -119,7 +106,6 @@
         #endregion
 
         private Label txtammo;
-        private Label txtScore;
         private Label label1;
         private ProgressBar HealthBar;
         private PictureBox pictureBox1;
