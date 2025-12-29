@@ -15,6 +15,7 @@ namespace GameProjectOop.Movements
         private GameObject target;
         private float speed;
 
+        public RectangleF Bounds { get; set; }
         public ChaseMovement(GameObject target, float speed)
         {
             this.target = target;
@@ -38,6 +39,13 @@ namespace GameProjectOop.Movements
                 obj.Position.X + dx * speed,
                 obj.Position.Y + dy * speed
             );
+            obj.Position = new PointF(
+               Math.Max(Bounds.Left,
+                   Math.Min(obj.Position.X, Bounds.Right - obj.Size.Width)),
+
+               Math.Max(Bounds.Top,
+                   Math.Min(obj.Position.Y, Bounds.Bottom - obj.Size.Height))
+           );
         }
     }
 }

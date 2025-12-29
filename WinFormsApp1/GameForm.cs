@@ -1,4 +1,5 @@
-﻿using GameProjectOop.Core;
+﻿using GameProjectOop;
+using GameProjectOop.Core;
 using GameProjectOop.Entities;
 using GameProjectOop.Extensions;
 using GameProjectOop.Movements;
@@ -17,15 +18,19 @@ namespace WinFormsApp1
     
     public partial class GameForm : Form
     {
+        bool gameEnded = false;
+
         Player player;
         KeyboardMovement keyboardMovement;
+        Random randNum = new Random();
+        Label lblKills = new Label();
 
         List<Bullet> bullets = new List<Bullet>();
         List<Enemy> enemies = new List<Enemy>();
         List<PowerUp> powerUps = new List<PowerUp>();
 
         CollisionSystem collisionSystem = new CollisionSystem();
-        Random randNum = new Random();
+     
 
         string facing = "up";
         int playerLives = 3;
@@ -33,7 +38,7 @@ namespace WinFormsApp1
         int score = 0;
         int damageCooldown = 0;
 
-        Label lblKills = new Label();
+        
 
         public GameForm()
         {
@@ -80,7 +85,7 @@ namespace WinFormsApp1
             pictureBox1.Left = (int)player.Position.X;
             pictureBox1.Top = (int)player.Position.Y;
 
-            // 🔫 BULLETS
+            // BULLETS
             for (int i = bullets.Count - 1; i >= 0; i--)
             {
                 bullets[i].Update(null);
@@ -102,9 +107,13 @@ namespace WinFormsApp1
                     bullets.RemoveAt(i);
             }
 
-            // 🧟 ENEMIES
+            //  ENEMIES
             foreach (Enemy enemy in enemies)
             {
+                //  KEEP DEMO INSIDE SCREEN
+                if (enemy.Movement is ChaseMovement chase)
+                    chase.Bounds = ClientRectangle;
+
                 enemy.Update(null);
 
                 if (damageCooldown <= 0 && enemy.Bounds.IntersectsWith(player.Bounds))
@@ -114,11 +123,16 @@ namespace WinFormsApp1
 
                     HealthBar.Value = Math.Max(0, (int)((playerLives / 3.0) * 100));
 
-                    if (playerLives <= 0)
+                    //  GAME OVER
+                    if (playerLives <= 0 && !gameEnded)
                     {
+                        gameEnded = true;
                         GameTimer.Stop();
-                        pictureBox1.Image = GameProjectOop.Properties.Resources.dead1;
-                        MessageBox.Show("Game Over");
+
+                        this.Hide();
+                        LostForm lost = new LostForm();
+                        lost.Show();
+                        return;
                     }
                 }
             }
@@ -126,21 +140,33 @@ namespace WinFormsApp1
             if (damageCooldown > 0)
                 damageCooldown--;
 
-            // ⚔️ COLLISIONS (Player ↔ PowerUps)
-            List<GameObject> allObjects = new List<GameObject>();
-            allObjects.Add(player);
+            //  COLLISIONS (Player ↔ PowerUps)
+            List<GameObject> allObjects = new List<GameObject> { player };
             allObjects.AddRange(enemies);
             allObjects.AddRange(powerUps);
 
             collisionSystem.Check(allObjects);
 
-            // 🧹 REMOVE PICKED POWERUPS
+            //  REMOVE PICKED POWERUPS
             powerUps.RemoveAll(p => !p.IsActive);
 
             txtammo.Text = "Ammo: " + player.Ammo;
 
+            //  YOU WIN (ALL DEMOS KILLED)
+            if (!gameEnded && enemies.Count == 0)
+            {
+                gameEnded = true;
+                GameTimer.Stop();
+
+                this.Hide();
+                ResultForm result = new ResultForm("YOU WIN");
+                result.Show();
+                return;
+            }
+
             Invalidate();
         }
+
 
         private void GameKeyDown(object sender, KeyEventArgs e)
         {
@@ -249,8 +275,8 @@ namespace WinFormsApp1
             GameTimer.Start();
         }
 
-       
 
+        //print bullets, powerups, enemies
         private void GameForm_paint(object sender, PaintEventArgs e)
         {
 
@@ -262,7 +288,7 @@ namespace WinFormsApp1
                     {
                         powerUp.Draw(e.Graphics);
                     }
-foreach (Enemy zombie in enemies)
+  foreach (Enemy zombie in enemies)
 {
     zombie.Draw(e.Graphics);
 }
