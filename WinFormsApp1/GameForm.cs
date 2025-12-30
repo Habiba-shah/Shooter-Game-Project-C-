@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
-    
+
     public partial class GameForm : Form
     {
         bool gameEnded = false;
@@ -30,7 +30,7 @@ namespace WinFormsApp1
         List<PowerUp> powerUps = new List<PowerUp>();
 
         CollisionSystem collisionSystem = new CollisionSystem();
-     
+
 
         string facing = "up";
         int playerLives = 3;
@@ -38,13 +38,13 @@ namespace WinFormsApp1
         int score = 0;
         int damageCooldown = 0;
 
-        
 
+        //constructorr
         public GameForm()
         {
             InitializeComponent();
             this.KeyPreview = true;
-            this.DoubleBuffered = true;
+            this.DoubleBuffered = true; //smooth game
         }
 
         private void GameForm_Load(object sender, EventArgs e)
@@ -68,6 +68,7 @@ namespace WinFormsApp1
             lblKills.Font = new Font("Arial", 14, FontStyle.Bold);
             lblKills.Left = ClientSize.Width - 150;
             lblKills.Top = 10;
+            lblKills.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Controls.Add(lblKills);
 
             txtammo.Text = "Ammo: " + player.Ammo;
@@ -89,6 +90,12 @@ namespace WinFormsApp1
             for (int i = bullets.Count - 1; i >= 0; i--)
             {
                 bullets[i].Update(null);
+
+                // CHECK BOUNDS (Dynamic)
+                if (!ClientRectangle.Contains(Point.Round(bullets[i].Position)))
+                {
+                    bullets[i].IsActive = false;
+                }
 
                 for (int j = enemies.Count - 1; j >= 0; j--)
                 {
@@ -207,19 +214,37 @@ namespace WinFormsApp1
 
         private void ShootBullet(string direction)
         {
-            Bullet bullet = new Bullet
-            {
-                Size = new SizeF(10, 4),
-                Position = new PointF(
-                    player.Position.X + pictureBox1.Width / 2,
-                    player.Position.Y + pictureBox1.Height / 2
-                )
-            };
+            Bullet bullet = new Bullet();
+            bullet.Size = new SizeF(10, 4);
 
-            if (direction == "left") bullet.Velocity = new PointF(-15, 0);
-            if (direction == "right") bullet.Velocity = new PointF(15, 0);
-            if (direction == "up") bullet.Velocity = new PointF(0, -15);
-            if (direction == "down") bullet.Velocity = new PointF(0, 15);
+            // Calculate spawn position based on direction so it doesn't spawn inside player
+            float spawnX = player.Position.X + pictureBox1.Width / 2;
+            float spawnY = player.Position.Y + pictureBox1.Height / 2;
+
+            if (direction == "left")
+            {
+                bullet.Velocity = new PointF(-15, 0);
+                spawnX = player.Position.X - bullet.Size.Width - 2;
+            }
+            if (direction == "right")
+            {
+                bullet.Velocity = new PointF(15, 0);
+                spawnX = player.Position.X + pictureBox1.Width + 2;
+            }
+            if (direction == "up")
+            {
+                bullet.Velocity = new PointF(0, -15);
+                bullet.Size = new SizeF(4, 10); // Rotate bullet for vertical
+                spawnY = player.Position.Y - bullet.Size.Height - 2;
+            }
+            if (direction == "down")
+            {
+                bullet.Velocity = new PointF(0, 15);
+                bullet.Size = new SizeF(4, 10); // Rotate bullet for vertical
+                spawnY = player.Position.Y + pictureBox1.Height + 2;
+            }
+
+            bullet.Position = new PointF(spawnX, spawnY);
 
             bullets.Add(bullet);
         }
@@ -280,19 +305,19 @@ namespace WinFormsApp1
         private void GameForm_paint(object sender, PaintEventArgs e)
         {
 
-                    foreach (Bullet b in bullets)
-                    {
-                        b.Draw(e.Graphics);
-                    }
-                    foreach (PowerUp powerUp in powerUps)
-                    {
-                        powerUp.Draw(e.Graphics);
-                    }
-  foreach (Enemy zombie in enemies)
-{
-    zombie.Draw(e.Graphics);
-}
+            foreach (Bullet b in bullets)
+            {
+                b.Draw(e.Graphics);
+            }
+            foreach (PowerUp powerUp in powerUps)
+            {
+                powerUp.Draw(e.Graphics);
+            }
+            foreach (Enemy zombie in enemies)
+            {
+                zombie.Draw(e.Graphics);
+            }
 
-                }
+        }
     }
 }

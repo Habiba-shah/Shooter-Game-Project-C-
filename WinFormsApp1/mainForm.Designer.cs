@@ -36,46 +36,63 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Showcard Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Showcard Gothic", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(199, 9);
+            label1.Location = new Point(75, 20);
             label1.Name = "label1";
-            label1.Size = new Size(410, 44);
+            label1.Size = new Size(619, 68);
             label1.TabIndex = 0;
             label1.Text = "Demo Shooter Game";
+            label1.Click += label1_Click;
             // 
             // button1
             // 
-            button1.BackColor = Color.DarkOrchid;
-            button1.Font = new Font("Stencil", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(292, 103);
+            button1.Anchor = AnchorStyles.None;
+            button1.BackColor = Color.Purple;
+            button1.FlatAppearance.BorderColor = Color.White;
+            button1.FlatAppearance.BorderSize = 2;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(225, 120);
             button1.Name = "button1";
-            button1.Size = new Size(225, 50);
+            button1.Size = new Size(350, 70);
             button1.TabIndex = 1;
             button1.Text = "Easy Level";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += this.button1_Click;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
-            button2.BackColor = Color.DarkOrchid;
-            button2.Font = new Font("Stencil", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(292, 168);
+            button2.Anchor = AnchorStyles.None;
+            button2.BackColor = Color.Purple;
+            button2.FlatAppearance.BorderColor = Color.White;
+            button2.FlatAppearance.BorderSize = 2;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(225, 210);
             button2.Name = "button2";
-            button2.Size = new Size(225, 45);
+            button2.Size = new Size(350, 70);
             button2.TabIndex = 2;
             button2.Text = "Medium Level";
             button2.UseVisualStyleBackColor = false;
             // 
             // button3
             // 
-            button3.BackColor = Color.DarkOrchid;
-            button3.Font = new Font("Stencil", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(292, 236);
+            button3.Anchor = AnchorStyles.None;
+            button3.BackColor = Color.Purple;
+            button3.FlatAppearance.BorderColor = Color.White;
+            button3.FlatAppearance.BorderSize = 2;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button3.ForeColor = Color.White;
+            button3.Location = new Point(225, 300);
             button3.Name = "button3";
-            button3.Size = new Size(225, 49);
+            button3.Size = new Size(350, 70);
             button3.TabIndex = 3;
             button3.Text = "Hard Level";
             button3.UseVisualStyleBackColor = false;
@@ -92,9 +109,9 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "MainForm";
             Text = "main";
+            WindowState = FormWindowState.Maximized;
             Load += main_Load;
             ResumeLayout(false);
             PerformLayout();

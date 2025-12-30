@@ -39,6 +39,7 @@
             // 
             // txtammo
             // 
+            txtammo.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             txtammo.AutoSize = true;
             txtammo.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtammo.ForeColor = SystemColors.ControlLightLight;
@@ -50,6 +51,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlLightLight;
@@ -61,6 +63,7 @@
             // 
             // HealthBar
             // 
+            HealthBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             HealthBar.Location = new Point(682, 12);
             HealthBar.Name = "HealthBar";
             HealthBar.Size = new Size(224, 28);
@@ -94,6 +97,7 @@
             Controls.Add(txtammo);
             Name = "GameForm";
             Text = "Enemy ShootOut Game";
+            WindowState = FormWindowState.Maximized;
             Load += GameForm_Load;
             Paint += GameForm_paint;
             KeyDown += GameKeyDown;

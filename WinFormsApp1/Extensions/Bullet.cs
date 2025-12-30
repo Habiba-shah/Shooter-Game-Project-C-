@@ -24,9 +24,6 @@ namespace GameProjectOop.Extensions
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            if (Position.X > 1000)
-                IsActive = false;
         }
 
         /// Simple visual representation for bullets (polymorphism example).
