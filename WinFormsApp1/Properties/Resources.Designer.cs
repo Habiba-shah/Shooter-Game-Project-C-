@@ -59,7 +59,7 @@ namespace GameProjectOop.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
@@ -96,6 +96,66 @@ namespace GameProjectOop.Properties {
         internal static System.Drawing.Bitmap demo {
             get {
                 object obj = ResourceManager.GetObject("demo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap demoleft1 {
+            get {
+                object obj = ResourceManager.GetObject("demoleft1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap demoleft2 {
+            get {
+                object obj = ResourceManager.GetObject("demoleft2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap demoleft3 {
+            get {
+                object obj = ResourceManager.GetObject("demoleft3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap demoright1 {
+            get {
+                object obj = ResourceManager.GetObject("demoright1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap demoright2 {
+            get {
+                object obj = ResourceManager.GetObject("demoright2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap demoright3 {
+            get {
+                object obj = ResourceManager.GetObject("demoright3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

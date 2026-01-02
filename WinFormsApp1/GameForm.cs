@@ -49,32 +49,8 @@ namespace WinFormsApp1
             this.DoubleBuffered = true; //smooth game
         }
 
-        //private void StartWelcome()
-        //{
-        //    GameTimer.Stop();   // pause game logic
 
-        //    welcomeAlpha = 0;
-        //    lblWelcome.Visible = true;
-        //    lblWelcome.ForeColor = Color.FromArgb(0, 255, 0, 0);
 
-        //    welcomeTimer.Start();
-        //}
-
-        //private void welcomeTimer_Tick(object sender, EventArgs e)
-        //{
-        //    welcomeAlpha += 5;
-
-        //    if (welcomeAlpha >= 255)
-        //    {
-        //        welcomeTimer.Stop();
-        //        lblWelcome.Visible = false;
-
-        //        GameTimer.Start(); // resume game
-        //        return;
-        //    }
-
-        //    lblWelcome.ForeColor = Color.FromArgb(welcomeAlpha, 255, 0, 0);
-        //}
 
         private void GameForm_Load(object sender, EventArgs e)
         {
@@ -168,8 +144,10 @@ namespace WinFormsApp1
                     {
                         gameEnded = true;
                         GameTimer.Stop();
-                        GameTimer.Stop();
-                        gameEnded = true;
+
+                        // Show dead sprite
+                        pictureBox1.Image = GameProjectOop.Properties.Resources.dead1;
+                        pictureBox1.Refresh();
 
                         LostForm lost = new LostForm();
                         lost.StartPosition = FormStartPosition.CenterParent;
@@ -184,7 +162,7 @@ namespace WinFormsApp1
             if (damageCooldown > 0)
                 damageCooldown--;
 
-            //  COLLISIONS (Player ↔ PowerUps)
+            //  COLLISIONS (Player  PowerUps)
             List<GameObject> allObjects = new List<GameObject> { player };
             allObjects.AddRange(enemies);
             allObjects.AddRange(powerUps);
@@ -201,7 +179,7 @@ namespace WinFormsApp1
             {
                 gameEnded = true;
                 GameTimer.Stop();
-                GameTimer.Stop();
+
                 gameEnded = true;
 
                 ResultForm result = new ResultForm("YOU WIN");
@@ -326,8 +304,16 @@ namespace WinFormsApp1
                 Size = new SizeF(140, 120),
                 Movement = new ChaseMovement(player, zombieSpeed),
                 Position = GetEnemySpawnPoint()
-
             };
+
+            // Add animation frames
+            zombie.LeftFrames.Add(GameProjectOop.Properties.Resources.demoleft1);
+            zombie.LeftFrames.Add(GameProjectOop.Properties.Resources.demoleft2);
+            zombie.LeftFrames.Add(GameProjectOop.Properties.Resources.demoleft3);
+
+            zombie.RightFrames.Add(GameProjectOop.Properties.Resources.demoright1);
+            zombie.RightFrames.Add(GameProjectOop.Properties.Resources.demoright2);
+            zombie.RightFrames.Add(GameProjectOop.Properties.Resources.demoright3);
 
             enemies.Add(zombie);
         }

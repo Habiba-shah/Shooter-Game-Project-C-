@@ -124,9 +124,6 @@
   <data name="down1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ammo-Image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ammo-Image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="dead1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dead.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -159,5 +156,26 @@
   </data>
   <data name="overr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\overr.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ammo-Image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ammo-Image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demoleft1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demoleft1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demoleft2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demoleft2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demoright1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demoright1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demoright2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demoright2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demoleft3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demoleft3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="demoright3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\demoright3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
