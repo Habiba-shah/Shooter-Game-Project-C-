@@ -18,6 +18,8 @@ namespace WinFormsApp1
 
     public partial class GameForm : Form
     {
+        //int welcomeAlpha = 0;
+        SoundSystem soundSystem;
         bool gameEnded = false;
 
         Player player;
@@ -47,6 +49,33 @@ namespace WinFormsApp1
             this.DoubleBuffered = true; //smooth game
         }
 
+        //private void StartWelcome()
+        //{
+        //    GameTimer.Stop();   // pause game logic
+
+        //    welcomeAlpha = 0;
+        //    lblWelcome.Visible = true;
+        //    lblWelcome.ForeColor = Color.FromArgb(0, 255, 0, 0);
+
+        //    welcomeTimer.Start();
+        //}
+
+        //private void welcomeTimer_Tick(object sender, EventArgs e)
+        //{
+        //    welcomeAlpha += 5;
+
+        //    if (welcomeAlpha >= 255)
+        //    {
+        //        welcomeTimer.Stop();
+        //        lblWelcome.Visible = false;
+
+        //        GameTimer.Start(); // resume game
+        //        return;
+        //    }
+
+        //    lblWelcome.ForeColor = Color.FromArgb(welcomeAlpha, 255, 0, 0);
+        //}
+
         private void GameForm_Load(object sender, EventArgs e)
         {
             keyboardMovement = new KeyboardMovement
@@ -72,8 +101,12 @@ namespace WinFormsApp1
             Controls.Add(lblKills);
 
             txtammo.Text = "Ammo: " + player.Ammo;
+            soundSystem = new SoundSystem();
 
+            //StartWelcome();
             RestartGame();
+
+
         }
 
         private void MainTimerEvent(object sender, EventArgs e)
@@ -135,10 +168,14 @@ namespace WinFormsApp1
                     {
                         gameEnded = true;
                         GameTimer.Stop();
+                        GameTimer.Stop();
+                        gameEnded = true;
 
-                        this.Hide();
                         LostForm lost = new LostForm();
-                        lost.Show();
+                        lost.StartPosition = FormStartPosition.CenterParent;
+                        lost.ShowDialog(this);
+
+                        this.Close();
                         return;
                     }
                 }
@@ -164,10 +201,14 @@ namespace WinFormsApp1
             {
                 gameEnded = true;
                 GameTimer.Stop();
+                GameTimer.Stop();
+                gameEnded = true;
 
-                this.Hide();
                 ResultForm result = new ResultForm("YOU WIN");
-                result.Show();
+                result.StartPosition = FormStartPosition.CenterParent;
+                result.ShowDialog(this);
+
+                this.Close();
                 return;
             }
 
@@ -248,6 +289,34 @@ namespace WinFormsApp1
 
             bullets.Add(bullet);
         }
+        private PointF GetEnemySpawnPoint()
+        {
+            int w = ClientSize.Width;
+            int h = ClientSize.Height;
+
+            int side = randNum.Next(4);
+
+            // TOP
+            if (side == 0)
+            {
+                return new PointF(randNum.Next(0, w), -120);
+            }
+            // BOTTOM
+            else if (side == 1)
+            {
+                return new PointF(randNum.Next(0, w), h + 120);
+            }
+            // LEFT
+            else if (side == 2)
+            {
+                return new PointF(-140, randNum.Next(0, h));
+            }
+            // RIGHT
+            else
+            {
+                return new PointF(w + 140, randNum.Next(0, h));
+            }
+        }
 
         private void MakeZombie()
         {
@@ -256,10 +325,8 @@ namespace WinFormsApp1
                 Sprite = GameProjectOop.Properties.Resources.demo,
                 Size = new SizeF(140, 120),
                 Movement = new ChaseMovement(player, zombieSpeed),
-                Position = new PointF(
-                    randNum.Next(0, 900),
-                    randNum.Next(0, 800)
-                )
+                Position = GetEnemySpawnPoint()
+
             };
 
             enemies.Add(zombie);
@@ -286,7 +353,7 @@ namespace WinFormsApp1
             bullets.Clear();
             powerUps.Clear();
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 10; i++)
                 MakeZombie();
 
             playerLives = 3;
@@ -317,6 +384,11 @@ namespace WinFormsApp1
             {
                 zombie.Draw(e.Graphics);
             }
+
+        }
+
+        private void lblWelcome_Click(object sender, EventArgs e)
+        {
 
         }
     }

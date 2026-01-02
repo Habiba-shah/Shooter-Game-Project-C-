@@ -41,9 +41,10 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Showcard Gothic", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(75, 20);
+            label1.Location = new Point(60, 16);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(619, 68);
+            label1.Size = new Size(530, 59);
             label1.TabIndex = 0;
             label1.Text = "Demo Shooter Game";
             label1.Click += label1_Click;
@@ -57,9 +58,10 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(225, 120);
+            button1.Location = new Point(180, 96);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(350, 70);
+            button1.Size = new Size(280, 56);
             button1.TabIndex = 1;
             button1.Text = "Easy Level";
             button1.UseVisualStyleBackColor = false;
@@ -74,12 +76,14 @@
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.White;
-            button2.Location = new Point(225, 210);
+            button2.Location = new Point(180, 168);
+            button2.Margin = new Padding(2, 2, 2, 2);
             button2.Name = "button2";
-            button2.Size = new Size(350, 70);
+            button2.Size = new Size(280, 56);
             button2.TabIndex = 2;
             button2.Text = "Medium Level";
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -90,25 +94,27 @@
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button3.ForeColor = Color.White;
-            button3.Location = new Point(225, 300);
+            button3.Location = new Point(180, 240);
+            button3.Margin = new Padding(2, 2, 2, 2);
             button3.Name = "button3";
-            button3.Size = new Size(350, 70);
+            button3.Size = new Size(280, 56);
             button3.TabIndex = 3;
             button3.Text = "Hard Level";
             button3.UseVisualStyleBackColor = false;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             BackgroundImage = Properties.Resources.cover;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 536);
+            ClientSize = new Size(640, 429);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label1);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "MainForm";
             Text = "main";
             WindowState = FormWindowState.Maximized;

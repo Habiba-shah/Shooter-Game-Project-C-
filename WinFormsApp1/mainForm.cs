@@ -71,5 +71,11 @@ namespace GameProjectOop
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ModerateLevel level= new ModerateLevel();
+            level.Show();
+        }
     }
 }
