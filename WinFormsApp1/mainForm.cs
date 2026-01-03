@@ -78,5 +78,11 @@ namespace GameProjectOop
             level.Show();
             this.Hide();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            HardLevel level = new HardLevel();
+            level.Show();
+        }
     }
 }

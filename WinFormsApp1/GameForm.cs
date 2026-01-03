@@ -301,7 +301,7 @@ namespace WinFormsApp1
             Enemy zombie = new Enemy
             {
                 Sprite = GameProjectOop.Properties.Resources.demo,
-                Size = new SizeF(140, 120),
+                Size = new SizeF(160, 140),
                 Movement = new ChaseMovement(player, zombieSpeed),
                 Position = GetEnemySpawnPoint()
             };

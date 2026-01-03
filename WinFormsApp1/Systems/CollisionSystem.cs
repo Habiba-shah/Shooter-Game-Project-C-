@@ -1,5 +1,6 @@
 ﻿using EZInput;
 using GameProjectOop.Entities;
+using GameProjectOop.Extensions;
 using GameProjectOop.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace GameProjectOop.Systems
 
                         // Compute the intersection rectangle (axis-aligned overlap)
                         var overlap = RectangleF.Intersect(a.Bounds, b.Bounds);
-                        if (overlap.Width > 0 && overlap.Height > 0)
+                        if (overlap.Width > 0 && overlap.Height > 0 && !(a is PowerUp) && !(b is PowerUp))
                         {
                             // Handle rigid-body cases specially: immovable objects stop others
                             if (a.IsRigidBody && !b.IsRigidBody)

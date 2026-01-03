@@ -79,7 +79,7 @@ namespace GameProjectOop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            GameForm game = new GameForm();
+            MainForm game = new MainForm();
             game.Show();
 
             this.Close();

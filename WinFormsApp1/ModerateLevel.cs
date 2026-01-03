@@ -16,6 +16,8 @@ namespace GameProjectOop
 {
     public partial class ModerateLevel : Form
     {
+        Mind mind;
+        int enemyKills = 0;
 
         SoundSystem soundSystem;
         bool gameEnded = false;
@@ -26,6 +28,7 @@ namespace GameProjectOop
         Label lblKills = new Label();
 
         List<Bullet> bullets = new List<Bullet>();
+        List<EnemyBullet> enemyBullets = new List<EnemyBullet>();
         List<Enemy> enemies = new List<Enemy>();
         List<PowerUp> powerUps = new List<PowerUp>();
 
@@ -33,7 +36,7 @@ namespace GameProjectOop
 
         string facing = "up";
         int playerLives = 3;
-        int zombieSpeed = 3;
+        int zombieSpeed = 4;
         int score = 0;
         int damageCooldown = 0;
 
@@ -81,7 +84,7 @@ namespace GameProjectOop
             keyboardMovement.Bounds = ClientRectangle;
 
             player.Size = pictureBox1.Size;
-            player.Update(null);
+            player.Update(new GameTime());
 
             pictureBox1.Left = (int)player.Position.X;
             pictureBox1.Top = (int)player.Position.Y;
@@ -89,7 +92,7 @@ namespace GameProjectOop
             // BULLETS
             for (int i = bullets.Count - 1; i >= 0; i--)
             {
-                bullets[i].Update(null);
+                bullets[i].Update(new GameTime());
 
                 // CHECK BOUNDS (Dynamic)
                 if (!ClientRectangle.Contains(Point.Round(bullets[i].Position)))
@@ -101,17 +104,79 @@ namespace GameProjectOop
                 {
                     if (bullets[i].Bounds.IntersectsWith(enemies[j].Bounds))
                     {
-                        enemies.RemoveAt(j);
-                        bullets[i].IsActive = false;
+                        // IF enemy is MIND (boss)
+                        if (enemies[j] is Mind boss)
+                        {
+                            boss.OnCollision(bullets[i]); // Mind handles its own health
+                            bullets[i].IsActive = false;
 
-                        score++;
-                        lblKills.Text = "Kills: " + score;
+                            if (!boss.IsActive) // Mind dead
+                            {
+                                enemies.RemoveAt(j);
+                                score++;
+                                lblKills.Text = "Kills: " + score;
+                            }
+                        }
+
+                        // NORMAL ZOMBIE
+                        else
+                        {
+                            enemies.RemoveAt(j);
+                            bullets[i].IsActive = false;
+
+                            enemyKills++;
+                            score++;
+                            lblKills.Text = "Kills: " + score;
+
+                            // 🔥 SPAWN MIND AFTER 5 ZOMBIES
+                            if (enemyKills == 5)
+                            {
+                                SpawnMind();
+                            }
+                        }
+
                         break;
                     }
+
                 }
 
                 if (!bullets[i].IsActive)
                     bullets.RemoveAt(i);
+            }
+
+            // ENEMY BULLETS
+            for (int i = enemyBullets.Count - 1; i >= 0; i--)
+            {
+                enemyBullets[i].Update(new GameTime());
+
+                if (!ClientRectangle.Contains(Point.Round(enemyBullets[i].Position)))
+                {
+                    enemyBullets[i].IsActive = false;
+                }
+
+                if (enemyBullets[i].Bounds.IntersectsWith(player.Bounds) && !gameEnded)
+                {
+                    enemyBullets[i].IsActive = false;
+                    playerLives = 0;
+                    HealthBar.Value = 0;
+
+                    gameEnded = true;
+                    GameTimer.Stop();
+
+                    // Show dead sprite
+                    pictureBox1.Image = Properties.Resources.dead1;
+                    pictureBox1.Refresh();
+
+                    LostForm lost = new LostForm();
+                    lost.StartPosition = FormStartPosition.CenterParent;
+                    lost.ShowDialog(this);
+
+                    this.Close();
+                    return;
+                }
+
+                if (!enemyBullets[i].IsActive)
+                    enemyBullets.RemoveAt(i);
             }
 
             //  ENEMIES
@@ -121,7 +186,7 @@ namespace GameProjectOop
                 if (enemy.Movement is ChaseMovement chase)
                     chase.Bounds = ClientRectangle;
 
-                enemy.Update(null);
+                enemy.Update(new GameTime());
 
                 if (damageCooldown <= 0 && enemy.Bounds.IntersectsWith(player.Bounds))
                 {
@@ -166,12 +231,10 @@ namespace GameProjectOop
             txtammo.Text = "Ammo: " + player.Ammo;
 
             //  YOU WIN (ALL DEMOS KILLED)
-            if (!gameEnded && enemies.Count == 0)
+            if (!gameEnded && enemies.Count == 0 && mind != null)
             {
                 gameEnded = true;
                 GameTimer.Stop();
-
-                gameEnded = true;
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
@@ -180,6 +243,7 @@ namespace GameProjectOop
                 this.Close();
                 return;
             }
+
 
             Invalidate();
         }
@@ -293,7 +357,7 @@ namespace GameProjectOop
             Enemy zombie = new Enemy
             {
                 Sprite = Properties.Resources.demo,
-                Size = new SizeF(140, 120),
+                Size = new SizeF(160, 140),
                 Movement = new ChaseMovement(player, zombieSpeed),
                 Position = GetEnemySpawnPoint()
 
@@ -330,9 +394,10 @@ namespace GameProjectOop
         {
             enemies.Clear();
             bullets.Clear();
+            enemyBullets.Clear();
             powerUps.Clear();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 7; i++)
                 MakeZombie();
 
             playerLives = 3;
@@ -355,6 +420,10 @@ namespace GameProjectOop
             {
                 b.Draw(e.Graphics);
             }
+            foreach (EnemyBullet eb in enemyBullets)
+            {
+                eb.Draw(e.Graphics);
+            }
             foreach (PowerUp powerUp in powerUps)
             {
                 powerUp.Draw(e.Graphics);
@@ -365,5 +434,42 @@ namespace GameProjectOop
             }
 
         }
+
+        void SpawnMind()
+        {
+            mind = new Mind();
+
+            mind.Position = new PointF(300, 100);
+            mind.Size = new SizeF(200, 220);
+
+            ChaseMovement chase = new ChaseMovement(player, 4.5f);
+            chase.Bounds = new RectangleF(0, 0, this.Width, this.Height);
+
+            mind.Movement = chase;
+
+            mind.Target = player;
+            mind.OnShoot = (spawnPos, direction) =>
+            {
+                float bulletSpeed = 6f;
+                EnemyBullet eb = new EnemyBullet();
+                eb.Position = spawnPos;
+                eb.Velocity = new PointF(direction.X * bulletSpeed, direction.Y * bulletSpeed);
+                enemyBullets.Add(eb);
+            };
+
+            mind.Velocity = PointF.Empty; // Reset default velocity from Enemy base class
+
+            // Animation frames (reuse Enemy system)
+            mind.LeftFrames.Add(Properties.Resources.mind1_0);
+            mind.LeftFrames.Add(Properties.Resources.mind2_0);
+            mind.LeftFrames.Add(Properties.Resources.mind3_0);
+
+            mind.RightFrames.Add(Properties.Resources.mind1);
+            mind.RightFrames.Add(Properties.Resources.mind2);
+            mind.RightFrames.Add(Properties.Resources.mind3);
+
+            enemies.Add(mind);
+        }
+
     }
 }

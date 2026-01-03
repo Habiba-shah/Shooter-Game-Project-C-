@@ -59,7 +59,7 @@
             button1.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.Location = new Point(180, 96);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(280, 56);
             button1.TabIndex = 1;
@@ -77,7 +77,7 @@
             button2.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.White;
             button2.Location = new Point(180, 168);
-            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(280, 56);
             button2.TabIndex = 2;
@@ -95,12 +95,13 @@
             button3.Font = new Font("Stencil", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button3.ForeColor = Color.White;
             button3.Location = new Point(180, 240);
-            button3.Margin = new Padding(2, 2, 2, 2);
+            button3.Margin = new Padding(2);
             button3.Name = "button3";
             button3.Size = new Size(280, 56);
             button3.TabIndex = 3;
             button3.Text = "Hard Level";
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // MainForm
             // 
@@ -114,7 +115,7 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "MainForm";
             Text = "main";
             WindowState = FormWindowState.Maximized;
