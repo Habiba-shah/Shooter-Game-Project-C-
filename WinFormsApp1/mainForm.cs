@@ -83,6 +83,7 @@ namespace GameProjectOop
         {
             HardLevel level = new HardLevel();
             level.Show();
+           
         }
     }
 }

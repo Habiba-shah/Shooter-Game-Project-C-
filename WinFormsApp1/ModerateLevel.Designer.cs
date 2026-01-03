@@ -79,7 +79,7 @@
             pictureBox1.Location = new Point(415, 489);
             pictureBox1.Margin = new Padding(2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(71, 94);
+            pictureBox1.Size = new Size(78, 94);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
