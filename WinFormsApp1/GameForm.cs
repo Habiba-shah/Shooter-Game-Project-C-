@@ -18,10 +18,17 @@ namespace WinFormsApp1
 
     public partial class GameForm : Form
     {
-        //int welcomeAlpha = 0;
-        SoundSystem soundSystem;
-        bool gameEnded = false;
 
+        SoundSystem demoSound = new SoundSystem();
+        SoundSystem shotSound = new SoundSystem();     // gun shot
+        SoundSystem pickupSound = new SoundSystem();   // ammo pickup
+
+        bool demoSoundPlaying = false;
+
+        //int welcomeAlpha = 0;
+      
+        bool gameEnded = false;
+       
         Player player;
         KeyboardMovement keyboardMovement;
         Random randNum = new Random();
@@ -77,7 +84,7 @@ namespace WinFormsApp1
             Controls.Add(lblKills);
 
             txtammo.Text = "Ammo: " + player.Ammo;
-            soundSystem = new SoundSystem();
+           
 
             //StartWelcome();
             RestartGame();
@@ -145,6 +152,12 @@ namespace WinFormsApp1
                         gameEnded = true;
                         GameTimer.Stop();
 
+                        // 🔇 STOP DEMO SOUND
+                        if (demoSoundPlaying)
+                        {
+                            demoSound.Stop();
+                            demoSoundPlaying = false;
+                        }
                         // Show dead sprite
                         pictureBox1.Image = GameProjectOop.Properties.Resources.dead1;
                         pictureBox1.Refresh();
@@ -180,7 +193,10 @@ namespace WinFormsApp1
                 gameEnded = true;
                 GameTimer.Stop();
 
-                gameEnded = true;
+
+                // 🔇 STOP DEMO SOUND
+                demoSound.Stop();
+                //gameEnded = true;
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
@@ -190,7 +206,10 @@ namespace WinFormsApp1
                 return;
             }
 
+
             Invalidate();
+
+          
         }
 
 
@@ -224,6 +243,11 @@ namespace WinFormsApp1
             {
                 player.Ammo--;
                 ShootBullet(facing);
+
+                shotSound.Play(
+            GameProjectOop.Properties.Resources.shot
+        );
+
                 txtammo.Text = "Ammo: " + player.Ammo;
 
                 if (player.Ammo == 0)
@@ -335,6 +359,8 @@ namespace WinFormsApp1
 
         private void RestartGame()
         {
+            demoSound.Stop();
+            demoSoundPlaying = false;
             enemies.Clear();
             bullets.Clear();
             powerUps.Clear();
@@ -349,7 +375,8 @@ namespace WinFormsApp1
             HealthBar.Value = 100;
             lblKills.Text = "Kills: 0";
             txtammo.Text = "Ammo: " + player.Ammo;
-
+            demoSound.PlayLoop(GameProjectOop.Properties.Resources.demosound);
+            demoSoundPlaying = true;
             GameTimer.Start();
         }
 

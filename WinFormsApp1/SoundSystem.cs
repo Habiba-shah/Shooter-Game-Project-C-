@@ -1,47 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Media;
 
 namespace GameProjectOop
 {
     public class SoundSystem
     {
-        SoundPlayer player;
-        MemoryStream savedStream;
+        private MediaPlayer? _mediaPlayer;
+        private string? _tempFilePath;
+        private bool _isLooping = false;
 
         public void Play(Stream resourceStream)
         {
-            MemoryStream ms = new MemoryStream();
-            resourceStream.Position = 0;
-            resourceStream.CopyTo(ms);
-            ms.Position = 0;
+            // For one-off sounds, we still need a temp file for MediaPlayer
+            string tempFile = CreateTempFile(resourceStream);
 
-            player = new SoundPlayer(ms);
+            // Create a new player for each "Play" to allow simultaneous sounds
+            // even if the same SoundSystem instance is called repeatedly (like for shots)
+            MediaPlayer player = new MediaPlayer();
+            player.Open(new Uri(Path.GetFullPath(tempFile)));
+
+            // Clean up temp file when sound ends
+            player.MediaEnded += (s, e) =>
+            {
+                player.Close();
+                try { File.Delete(tempFile); } catch { }
+            };
+
             player.Play();
         }
 
         public void PlayLoop(Stream resourceStream)
         {
-            player?.Stop(); // Purana stop
-            player?.Dispose();
-            MemoryStream ms = new MemoryStream();
-            resourceStream.Position = 0;
-            resourceStream.CopyTo(ms);
-            ms.Position = 0;
+            Stop(); // Stop any existing loop/sound
 
-            player = new SoundPlayer(ms);
-            player.Load();
-            player.PlayLooping();
+            _tempFilePath = CreateTempFile(resourceStream);
+            _mediaPlayer = new MediaPlayer();
+            _isLooping = true;
 
+            _mediaPlayer.Open(new Uri(Path.GetFullPath(_tempFilePath)));
+            _mediaPlayer.MediaEnded += (s, e) =>
+            {
+                if (_isLooping && _mediaPlayer != null)
+                {
+                    _mediaPlayer.Position = TimeSpan.Zero;
+                    _mediaPlayer.Play();
+                }
+            };
+
+            _mediaPlayer.Play();
         }
 
         public void Stop()
         {
-            if (player != null)
-                player.Stop();
+            _isLooping = false;
+            if (_mediaPlayer != null)
+            {
+                _mediaPlayer.Stop();
+                _mediaPlayer.Close();
+                _mediaPlayer = null;
+            }
+
+            if (_tempFilePath != null && File.Exists(_tempFilePath))
+            {
+                try { File.Delete(_tempFilePath); } catch { }
+                _tempFilePath = null;
+            }
+        }
+
+        private string CreateTempFile(Stream resourceStream)
+        {
+            string tempFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".wav");
+            using (FileStream fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+            {
+                resourceStream.Position = 0;
+                resourceStream.CopyTo(fs);
+            }
+            return tempFile;
         }
     }
 }

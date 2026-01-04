@@ -68,14 +68,15 @@ namespace GameProjectOop.Entities
                 }
             }
         }
+        private ImageAttributes _attr = new ImageAttributes();
+        private ColorMatrix _matrix = new ColorMatrix();
+
         public override void Draw(Graphics g)
         {
             if (Sprite == null) return;
 
-            ImageAttributes attr = new ImageAttributes();
-            ColorMatrix matrix = new ColorMatrix();
-            matrix.Matrix33 = alpha / 255f;   // transparency
-            attr.SetColorMatrix(matrix);
+            _matrix.Matrix33 = alpha / 255f;   // transparency
+            _attr.SetColorMatrix(_matrix);
 
             g.DrawImage(
                 Sprite,
@@ -84,9 +85,9 @@ namespace GameProjectOop.Entities
                 Sprite.Width,
                 Sprite.Height,
                 GraphicsUnit.Pixel,
-                attr
+                _attr
             );
         }
-        }
     }
+}
 

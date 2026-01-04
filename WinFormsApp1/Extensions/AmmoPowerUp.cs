@@ -9,6 +9,8 @@ namespace GameProjectOop.Extensions
 {
     public class AmmoPowerUp : PowerUp
     {
+
+        SoundSystem pickupSound = new SoundSystem();
         public int AmmoAmount { get; set; } = 5;
 
         public override void OnCollision(GameObject other)
@@ -17,6 +19,10 @@ namespace GameProjectOop.Extensions
             {
                 player.Ammo += AmmoAmount;
                 IsActive = false;
+
+                pickupSound.Play(
+                    GameProjectOop.Properties.Resources.ammo
+                );
             }
         }
     }

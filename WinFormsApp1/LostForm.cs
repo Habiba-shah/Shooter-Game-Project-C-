@@ -13,6 +13,8 @@ namespace GameProjectOop
 {
     public partial class LostForm : Form
     {
+
+        SoundSystem soundSystem = new SoundSystem();
         public LostForm()
         {
             InitializeComponent();
@@ -29,10 +31,15 @@ namespace GameProjectOop
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MainForm game = new MainForm();
-            game.Show();
+            {
+                soundSystem.Play(
+           GameProjectOop.Properties.Resources.whoosh
+       );
+                MainForm game = new MainForm();
+                game.Show();
 
-            this.Close();
+                this.Close();
+            }
         }
     }
 }

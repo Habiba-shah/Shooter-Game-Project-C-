@@ -13,6 +13,9 @@ namespace GameProjectOop
 {
     public partial class MainForm : Form
     {
+
+        SoundSystem soundSystem = new SoundSystem();
+
         public MainForm()
         {
             InitializeComponent();
@@ -58,6 +61,11 @@ namespace GameProjectOop
 
         private void button1_Click(object sender, EventArgs e)
         {
+            soundSystem.Stop();
+            soundSystem.Play(
+       GameProjectOop.Properties.Resources.whoosh
+   );
+            //soundSystem.Stop();
             WinFormsApp1.GameForm gameForm = new WinFormsApp1.GameForm();
             gameForm.Show();
             this.Hide();
@@ -65,6 +73,9 @@ namespace GameProjectOop
 
         private void main_Load(object sender, EventArgs e)
         {
+            soundSystem.PlayLoop(
+        GameProjectOop.Properties.Resources.intro
+    );
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -74,6 +85,12 @@ namespace GameProjectOop
 
         private void button2_Click(object sender, EventArgs e)
         {
+            soundSystem.Stop();
+            soundSystem.Play(
+       GameProjectOop.Properties.Resources.whoosh
+   );
+
+            //soundSystem.Stop();
             ModerateLevel level = new ModerateLevel();
             level.Show();
             this.Hide();
@@ -81,6 +98,11 @@ namespace GameProjectOop
 
         private void button3_Click(object sender, EventArgs e)
         {
+            soundSystem.Stop();
+            soundSystem.Play(
+      GameProjectOop.Properties.Resources.whoosh
+  );
+            //soundSystem.Stop();
             HardLevel level = new HardLevel();
             level.Show();
            

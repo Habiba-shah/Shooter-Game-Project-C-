@@ -16,8 +16,14 @@ namespace GameProjectOop
 {
     public partial class HardLevel : Form
     {
-        Mind mind;
+        SoundSystem shotSound = new SoundSystem();
+        
+
+
+        Mind? mind;
+        Vecna? vecna;
         int enemyKills = 0;
+        int vecnaSpawnTimer = -1;
 
         SoundSystem soundSystem;
         bool gameEnded = false;
@@ -118,6 +124,20 @@ namespace GameProjectOop
                             }
                         }
 
+                        // IF enemy is VECNA (boss)
+                        else if (enemies[j] is Vecna vBoss)
+                        {
+                            vBoss.OnCollision(bullets[i]);
+                            bullets[i].IsActive = false;
+
+                            if (!vBoss.IsActive)
+                            {
+                                enemies.RemoveAt(j);
+                                score++;
+                                lblKills.Text = "Kills: " + score;
+                            }
+                        }
+
                         // NORMAL ZOMBIE
                         else
                         {
@@ -132,6 +152,7 @@ namespace GameProjectOop
                             if (enemyKills == 5)
                             {
                                 SpawnMind();
+                                vecnaSpawnTimer = 150; // 3 seconds (150 frames @ 20ms)
                             }
                         }
 
@@ -200,6 +221,7 @@ namespace GameProjectOop
                     {
                         gameEnded = true;
                         GameTimer.Stop();
+                        soundSystem.Stop();
 
                         // Show dead sprite
                         pictureBox1.Image = Properties.Resources.dead1;
@@ -230,11 +252,12 @@ namespace GameProjectOop
 
             txtammo.Text = "Ammo: " + player.Ammo;
 
-            //  YOU WIN (ALL DEMOS KILLED)
-            if (!gameEnded && enemies.Count == 0 && mind != null)
+            //  YOU WIN (BOTH BOSSES KILLED)
+            if (!gameEnded && enemies.Count == 0 && mind != null && vecna != null)
             {
                 gameEnded = true;
                 GameTimer.Stop();
+                soundSystem.Stop();
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
@@ -242,6 +265,16 @@ namespace GameProjectOop
 
                 this.Close();
                 return;
+            }
+
+            // Vecna Delay Timer
+            if (vecnaSpawnTimer > 0)
+            {
+                vecnaSpawnTimer--;
+                if (vecnaSpawnTimer == 0)
+                {
+                    SpawnVecna();
+                }
             }
 
 
@@ -279,6 +312,11 @@ namespace GameProjectOop
             {
                 player.Ammo--;
                 ShootBullet(facing);
+
+                shotSound.Play(
+            GameProjectOop.Properties.Resources.shot
+        );
+
                 txtammo.Text = "Ammo: " + player.Ammo;
 
                 if (player.Ammo == 0)
@@ -396,18 +434,23 @@ namespace GameProjectOop
             bullets.Clear();
             enemyBullets.Clear();
             powerUps.Clear();
+            mind = null;
+            vecna = null;
+            vecnaSpawnTimer = -1;
+            enemyKills = 0;
 
             for (int i = 0; i < 10; i++) // More zombies for Hard Level (Moderate was 7)
                 MakeZombie();
 
             playerLives = 3;
-            player.Ammo = 10;
+            player.Ammo = 20;
             score = 0;
 
             HealthBar.Value = 100;
             lblKills.Text = "Kills: 0";
             txtammo.Text = "Ammo: " + player.Ammo;
 
+            soundSystem.PlayLoop(Properties.Resources.demosound);
             GameTimer.Start();
         }
 
@@ -469,6 +512,40 @@ namespace GameProjectOop
             mind.RightFrames.Add(Properties.Resources.mind3);
 
             enemies.Add(mind);
+        }
+
+        void SpawnVecna()
+        {
+            vecna = new Vecna();
+
+            vecna.Position = new PointF(100, 100);
+            vecna.Size = new SizeF(200, 220);
+
+            ChaseMovement chase = new ChaseMovement(player, 4.0f); // Slightly slower than Mind but tough
+            chase.Bounds = new RectangleF(0, 0, this.Width, this.Height);
+
+            vecna.Movement = chase;
+
+            vecna.OnShootAllDirections = (spawnPos, directions) =>
+            {
+                float bulletSpeed = 6f;
+                foreach (var dir in directions)
+                {
+                    FireBullet fb = new FireBullet();
+                    fb.Position = spawnPos;
+                    fb.Velocity = new PointF(dir.X * bulletSpeed, dir.Y * bulletSpeed);
+                    enemyBullets.Add(fb);
+                }
+            };
+
+            vecna.Velocity = PointF.Empty;
+
+            // Animation frames 
+            // final1 for right, final2 for left (based on files found)
+            vecna.RightFrames.Add(Properties.Resources.final1);
+            vecna.LeftFrames.Add(Properties.Resources.final2);
+
+            enemies.Add(vecna);
         }
 
     }

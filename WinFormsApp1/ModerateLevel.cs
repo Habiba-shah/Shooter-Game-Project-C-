@@ -16,6 +16,8 @@ namespace GameProjectOop
 {
     public partial class ModerateLevel : Form
     {
+
+        SoundSystem shotSound = new SoundSystem();
         Mind mind;
         int enemyKills = 0;
 
@@ -200,6 +202,7 @@ namespace GameProjectOop
                     {
                         gameEnded = true;
                         GameTimer.Stop();
+                        soundSystem.Stop();
 
                         // Show dead sprite
                         pictureBox1.Image = Properties.Resources.dead1;
@@ -235,6 +238,7 @@ namespace GameProjectOop
             {
                 gameEnded = true;
                 GameTimer.Stop();
+                soundSystem.Stop();
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
@@ -279,6 +283,11 @@ namespace GameProjectOop
             {
                 player.Ammo--;
                 ShootBullet(facing);
+
+                shotSound.Play(
+            GameProjectOop.Properties.Resources.shot
+        );
+
                 txtammo.Text = "Ammo: " + player.Ammo;
 
                 if (player.Ammo == 0)
@@ -408,6 +417,7 @@ namespace GameProjectOop
             lblKills.Text = "Kills: 0";
             txtammo.Text = "Ammo: " + player.Ammo;
 
+            soundSystem.PlayLoop(Properties.Resources.demosound);
             GameTimer.Start();
         }
 
