@@ -41,5 +41,10 @@ namespace GameProjectOop
                 this.Close();
             }
         }
+
+        private void LostForm_Load(object sender, EventArgs e)
+        {
+            soundSystem.Play(GameProjectOop.Properties.Resources.over);
+        }
     }
 }

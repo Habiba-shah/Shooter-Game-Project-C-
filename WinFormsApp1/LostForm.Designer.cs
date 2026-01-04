@@ -37,7 +37,7 @@
             button2.Font = new Font("Showcard Gothic", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.Black;
             button2.Location = new Point(160, 229);
-            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(143, 27);
             button2.TabIndex = 1;
@@ -53,9 +53,10 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(463, 298);
             Controls.Add(button2);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "LostForm";
             Text = "LostForm";
+            Load += LostForm_Load;
             ResumeLayout(false);
         }
 
