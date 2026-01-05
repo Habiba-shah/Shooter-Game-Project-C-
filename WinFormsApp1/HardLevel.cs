@@ -17,13 +17,14 @@ namespace GameProjectOop
     public partial class HardLevel : Form
     {
         SoundSystem shotSound = new SoundSystem();
-        
+
 
 
         Mind? mind;
         Vecna? vecna;
         int enemyKills = 0;
         int vecnaSpawnTimer = -1;
+        ScoreSystem scoreSystem = new ScoreSystem();
 
         SoundSystem soundSystem;
         bool gameEnded = false;
@@ -190,6 +191,7 @@ namespace GameProjectOop
 
                     LostForm lost = new LostForm();
                     lost.StartPosition = FormStartPosition.CenterParent;
+                    scoreSystem.RecordKills("Hard", score);
                     lost.ShowDialog(this);
 
                     this.Close();
@@ -229,6 +231,7 @@ namespace GameProjectOop
 
                         LostForm lost = new LostForm();
                         lost.StartPosition = FormStartPosition.CenterParent;
+                        scoreSystem.RecordKills("Hard", score);
                         lost.ShowDialog(this);
 
                         this.Close();
@@ -261,6 +264,7 @@ namespace GameProjectOop
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
+                scoreSystem.RecordKills("Hard", score);
                 result.ShowDialog(this);
 
                 this.Close();

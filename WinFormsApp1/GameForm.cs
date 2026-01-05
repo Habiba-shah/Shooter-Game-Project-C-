@@ -20,15 +20,16 @@ namespace WinFormsApp1
     {
 
         SoundSystem demoSound = new SoundSystem();
-        SoundSystem shotSound = new SoundSystem();     
+        SoundSystem shotSound = new SoundSystem();
         SoundSystem pickupSound = new SoundSystem();
         CollisionSystem collisionSystem = new CollisionSystem();
         LostForm lost = new LostForm();
+        ScoreSystem scoreSystem = new ScoreSystem();
 
         //flags
         bool demoSoundPlaying = false;
         bool gameEnded = false;
-       
+
         Player player;
         KeyboardMovement keyboardMovement;
         Random randNum = new Random();
@@ -38,7 +39,7 @@ namespace WinFormsApp1
         List<Enemy> enemies = new List<Enemy>();
         List<PowerUp> powerUps = new List<PowerUp>();
 
-       
+
         string facing = "up";
         int playerLives = 3;
         int zombieSpeed = 3;
@@ -156,6 +157,7 @@ namespace WinFormsApp1
                         }
                         //set lost form frame
                         lost.StartPosition = FormStartPosition.CenterParent;
+                        scoreSystem.RecordKills("Easy", score);
                         lost.ShowDialog(this);
 
                         this.Close();
@@ -166,7 +168,7 @@ namespace WinFormsApp1
                     damageCooldown--;
             }
 
-          
+
 
             //  COLLISIONS (Player  PowerUps)
             List<GameObject> allObjects = new List<GameObject> { player };
@@ -194,6 +196,7 @@ namespace WinFormsApp1
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
+                scoreSystem.RecordKills("Easy", score);
                 result.ShowDialog(this);
 
                 this.Close();
@@ -203,7 +206,7 @@ namespace WinFormsApp1
 
             Invalidate();
 
-          
+
         }
 
 
