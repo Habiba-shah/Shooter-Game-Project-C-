@@ -127,7 +127,14 @@ namespace WinFormsApp1
             //  ENEMIES
             foreach (Enemy enemy in enemies)
             {
-                //  KEEP DEMO INSIDE SCREEN
+                //if (enemy.Movement is JumpMovement jump)
+                //{
+                //    // Jump every 60 frames (once per second if timer interval = 16ms)
+                //    if (randNum.Next(0, 60) == 0)
+                //        jump.Jump();
+                //}
+
+                //KEEP DEMO INSIDE SCREEN
                 if (enemy.Movement is ChaseMovement chase)
                     chase.Bounds = ClientRectangle;
 
@@ -196,6 +203,7 @@ namespace WinFormsApp1
 
                 ResultForm result = new ResultForm("YOU WIN");
                 result.StartPosition = FormStartPosition.CenterParent;
+
                 scoreSystem.RecordKills("Easy", score);
                 result.ShowDialog(this);
 
@@ -246,14 +254,17 @@ namespace WinFormsApp1
         );
 
                 txtammo.Text = "Ammo: " + player.Ammo;
-
+                //age ammo zero ho jayan to ammo drop karvao
                 if (player.Ammo == 0)
                     DropAmmo();
             }
         }
 
+
+
         private void ShootBullet(string direction)
         {
+            //bullet ka size
             Bullet bullet = new Bullet();
             bullet.Size = new SizeF(10, 4);
 
@@ -288,6 +299,7 @@ namespace WinFormsApp1
 
             bullets.Add(bullet);
         }
+
         private PointF GetEnemySpawnPoint()
         {
             int w = ClientSize.Width;
@@ -319,12 +331,26 @@ namespace WinFormsApp1
 
         private void MakeZombie()
         {
+            float leftBound = randNum.Next(50, ClientSize.Width / 2);
+            float rightBound = randNum.Next(ClientSize.Width / 2, ClientSize.Width - 50);
             Enemy zombie = new Enemy
             {
                 Sprite = GameProjectOop.Properties.Resources.demo,
                 Size = new SizeF(160, 140),
+                //Movement = new PatrolMovement(leftBound, rightBound, zombieSpeed),
+                //Position = new PointF(leftBound, randNum.Next(50, ClientSize.Height - 100)) // start at leftBound
+
+                //Movement = new ZigZagMovement(speedX: zombieSpeed, amplitude: 50, frequency: 0.1f),
+                //Position = new PointF(-140, randNum.Next(50, ClientSize.Height - 100)) // start from left
+
                 Movement = new ChaseMovement(player, zombieSpeed),
                 Position = GetEnemySpawnPoint()
+
+                //Movement = new JumpMovement(jumpForce: 15f, gravity: 1f),
+                //Position = new PointF(randNum.Next(0, ClientSize.Width - 160), 400)
+
+
+
             };
 
             // Add animation frames

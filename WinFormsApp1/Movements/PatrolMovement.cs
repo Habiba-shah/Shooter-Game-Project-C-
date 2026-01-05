@@ -16,10 +16,11 @@ namespace GameProjectOop.Movements
         private float rightBound;
         private float speed = 2f;
 
-        public PatrolMovement(float left, float right)
+        public PatrolMovement(float left, float right,float speed)
         {
             leftBound = left;
             rightBound = right;
+            this.speed = speed;
         }
 
         public void Move(GameObject obj, GameTime gameTime)
