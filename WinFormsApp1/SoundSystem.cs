@@ -40,6 +40,7 @@ namespace GameProjectOop
             _isLooping = true;
 
             _mediaPlayer.Open(new Uri(Path.GetFullPath(_tempFilePath)));
+            //loop ki logic
             _mediaPlayer.MediaEnded += (s, e) =>
             {
                 if (_isLooping && _mediaPlayer != null)

@@ -15,9 +15,9 @@ namespace GameProjectOop
     {
 
         SoundSystem soundSystem = new SoundSystem();
-
+        //load krta hy form ko
         public MainForm()
-        {
+        {   
             InitializeComponent();
 
             this.BackgroundImage = GameProjectOop.Properties.Resources.cover;
@@ -27,6 +27,7 @@ namespace GameProjectOop
             CustomizeButtons();
         }
 
+        //buttons ko array mein store krta hy 
         private void CustomizeButtons()
         {
             Button[] buttons = { button1, button2, button3 };
@@ -37,22 +38,22 @@ namespace GameProjectOop
                 btn.MouseLeave += Button_MouseLeave;
             }
         }
-
+        //hover effect deta hy array mein store button pr
         private void Button_MouseEnter(object sender, EventArgs e)
         {
             if (sender is Button btn)
             {
-                btn.BackColor = Color.Red; // Lighter Highlight
-                btn.ForeColor = Color.Yellow; // Optional: Text pop
+                btn.BackColor = Color.Red; 
+                btn.ForeColor = Color.Yellow; 
                 btn.Cursor = Cursors.Hand;
             }
         }
-
+        //original color pr wapis a jata hy jb curse hataty hn
         private void Button_MouseLeave(object sender, EventArgs e)
         {
             if (sender is Button btn)
             {
-                btn.BackColor = Color.DarkRed; // Original
+                btn.BackColor = Color.DarkRed; 
                 btn.ForeColor = Color.White;
             }
         }
@@ -63,10 +64,9 @@ namespace GameProjectOop
         {
             soundSystem.Stop();
             soundSystem.Play(
-       GameProjectOop.Properties.Resources.whoosh
-   );
-            //soundSystem.Stop();
-            WinFormsApp1.GameForm gameForm = new WinFormsApp1.GameForm();
+            GameProjectOop.Properties.Resources.whoosh
+               );
+            GameForm gameForm = new GameForm();
             gameForm.Show();
             this.Hide();
         }
@@ -75,7 +75,7 @@ namespace GameProjectOop
         {
             soundSystem.PlayLoop(
         GameProjectOop.Properties.Resources.intro
-    );
+        );
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -88,9 +88,7 @@ namespace GameProjectOop
             soundSystem.Stop();
             soundSystem.Play(
        GameProjectOop.Properties.Resources.whoosh
-   );
-
-            //soundSystem.Stop();
+        );
             ModerateLevel level = new ModerateLevel();
             level.Show();
             this.Hide();
@@ -101,8 +99,7 @@ namespace GameProjectOop
             soundSystem.Stop();
             soundSystem.Play(
       GameProjectOop.Properties.Resources.whoosh
-  );
-            //soundSystem.Stop();
+        );
             HardLevel level = new HardLevel();
             level.Show();
            

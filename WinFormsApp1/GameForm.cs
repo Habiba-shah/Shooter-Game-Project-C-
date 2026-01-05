@@ -20,13 +20,13 @@ namespace WinFormsApp1
     {
 
         SoundSystem demoSound = new SoundSystem();
-        SoundSystem shotSound = new SoundSystem();     // gun shot
-        SoundSystem pickupSound = new SoundSystem();   // ammo pickup
+        SoundSystem shotSound = new SoundSystem();     
+        SoundSystem pickupSound = new SoundSystem();
+        CollisionSystem collisionSystem = new CollisionSystem();
+        LostForm lost = new LostForm();
 
+        //flags
         bool demoSoundPlaying = false;
-
-        //int welcomeAlpha = 0;
-      
         bool gameEnded = false;
        
         Player player;
@@ -38,9 +38,7 @@ namespace WinFormsApp1
         List<Enemy> enemies = new List<Enemy>();
         List<PowerUp> powerUps = new List<PowerUp>();
 
-        CollisionSystem collisionSystem = new CollisionSystem();
-
-
+       
         string facing = "up";
         int playerLives = 3;
         int zombieSpeed = 3;
@@ -55,9 +53,6 @@ namespace WinFormsApp1
             this.KeyPreview = true;
             this.DoubleBuffered = true; //smooth game
         }
-
-
-
 
         private void GameForm_Load(object sender, EventArgs e)
         {
@@ -83,10 +78,8 @@ namespace WinFormsApp1
             lblKills.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Controls.Add(lblKills);
 
-            txtammo.Text = "Ammo: " + player.Ammo;
-           
 
-            //StartWelcome();
+            txtammo.Text = "Ammo: " + player.Ammo;
             RestartGame();
 
 
@@ -125,7 +118,7 @@ namespace WinFormsApp1
                         break;
                     }
                 }
-
+                //remove inactive bullets
                 if (!bullets[i].IsActive)
                     bullets.RemoveAt(i);
             }
@@ -138,7 +131,7 @@ namespace WinFormsApp1
                     chase.Bounds = ClientRectangle;
 
                 enemy.Update(null);
-
+                //decrease lives on collision
                 if (damageCooldown <= 0 && enemy.Bounds.IntersectsWith(player.Bounds))
                 {
                     playerLives--;
@@ -152,17 +145,16 @@ namespace WinFormsApp1
                         gameEnded = true;
                         GameTimer.Stop();
 
-                        // 🔇 STOP DEMO SOUND
+                        // Show dead sprite
+                        pictureBox1.Image = GameProjectOop.Properties.Resources.dead1;
+                        pictureBox1.Refresh();
+                        //STOP DEMO SOUND
                         if (demoSoundPlaying)
                         {
                             demoSound.Stop();
                             demoSoundPlaying = false;
                         }
-                        // Show dead sprite
-                        pictureBox1.Image = GameProjectOop.Properties.Resources.dead1;
-                        pictureBox1.Refresh();
-
-                        LostForm lost = new LostForm();
+                        //set lost form frame
                         lost.StartPosition = FormStartPosition.CenterParent;
                         lost.ShowDialog(this);
 
@@ -170,10 +162,11 @@ namespace WinFormsApp1
                         return;
                     }
                 }
+                if (damageCooldown > 0)
+                    damageCooldown--;
             }
 
-            if (damageCooldown > 0)
-                damageCooldown--;
+          
 
             //  COLLISIONS (Player  PowerUps)
             List<GameObject> allObjects = new List<GameObject> { player };
@@ -187,6 +180,7 @@ namespace WinFormsApp1
 
             txtammo.Text = "Ammo: " + player.Ammo;
 
+
             //  YOU WIN (ALL DEMOS KILLED)
             if (!gameEnded && enemies.Count == 0)
             {
@@ -194,7 +188,7 @@ namespace WinFormsApp1
                 GameTimer.Stop();
 
 
-                // 🔇 STOP DEMO SOUND
+                //STOP DEMO SOUND
                 demoSound.Stop();
                 //gameEnded = true;
 
