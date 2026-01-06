@@ -23,7 +23,7 @@ namespace GameProjectOop
         private void button1_Click(object sender, EventArgs e)
         {
 
-            MainForm menu = new MainForm();
+            MainMenu menu = new MainMenu();
             menu.Show();
 
             this.Close();
@@ -35,7 +35,7 @@ namespace GameProjectOop
                 soundSystem.Play(
            GameProjectOop.Properties.Resources.whoosh
        );
-                MainForm game = new MainForm();
+                MainMenu game = new MainMenu();
                 game.Show();
 
                 this.Close();
@@ -44,7 +44,7 @@ namespace GameProjectOop
 
         private void LostForm_Load(object sender, EventArgs e)
         {
-            soundSystem.Play(GameProjectOop.Properties.Resources.over);
+            soundSystem.Play(GameProjectOop.Properties.Resources.lost);
         }
     }
 }

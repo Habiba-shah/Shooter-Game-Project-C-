@@ -99,11 +99,14 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
+            BackgroundImage = Properties.Resources.down;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(916, 594);
             Controls.Add(pictureBox1);
             Controls.Add(HealthBar);
             Controls.Add(label1);
             Controls.Add(txtammo);
+            ForeColor = Color.CadetBlue;
             Margin = new Padding(2);
             Name = "HardLevel";
             Text = "HardLevel";

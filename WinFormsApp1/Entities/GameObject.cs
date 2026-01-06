@@ -28,7 +28,7 @@ namespace GameProjectOop.Entities
 
         // Physics related properties (optional)
         public bool HasPhysics { get; set; } = false;
-
+        public GameObject() { }                                                                                         
         // Custom gravity 
         public float? CustomGravity { get; set; } = null;
 
@@ -71,7 +71,11 @@ namespace GameProjectOop.Entities
         // Called when this object collides with another. Default does nothing.
         // Override in derived classes to implement domain-specific reactions (damage, pickup, deactivate).
         // Demonstrates polymorphism and single responsibility: collision reaction is left to the object itself.
+
+
+        //polymorphism
         public virtual void OnCollision(GameObject other)
+
         {
             // Default behavior: Do nothing
         }

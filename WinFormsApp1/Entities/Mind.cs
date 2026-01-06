@@ -52,7 +52,7 @@ namespace GameProjectOop.Entities
                 OnShoot?.Invoke(spawnPos, direction);
             }
         }
-
+        //fade logic
         public override void OnCollision(GameObject other)
         {
             if (other is Bullet)

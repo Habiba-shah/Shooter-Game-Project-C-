@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             txtammo = new Label();
             label1 = new Label();
             HealthBar = new ProgressBar();
@@ -75,6 +76,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = GameProjectOop.Properties.Resources.up2;
             pictureBox1.Location = new Point(415, 489);
             pictureBox1.Margin = new Padding(2);
@@ -99,6 +101,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(916, 594);
             Controls.Add(pictureBox1);
             Controls.Add(HealthBar);

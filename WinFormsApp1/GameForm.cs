@@ -30,11 +30,12 @@ namespace WinFormsApp1
         bool demoSoundPlaying = false;
         bool gameEnded = false;
 
+        //obj reference
         Player player;
         KeyboardMovement keyboardMovement;
         Random randNum = new Random();
         Label lblKills = new Label();
-
+        //store entities
         List<Bullet> bullets = new List<Bullet>();
         List<Enemy> enemies = new List<Enemy>();
         List<PowerUp> powerUps = new List<PowerUp>();
@@ -50,7 +51,7 @@ namespace WinFormsApp1
         //constructorr
         public GameForm()
         {
-            InitializeComponent();
+            InitializeComponent();//initialize form componnets 
             this.KeyPreview = true;
             this.DoubleBuffered = true; //smooth game
         }
@@ -101,7 +102,7 @@ namespace WinFormsApp1
             {
                 bullets[i].Update(null);
 
-                // CHECK BOUNDS (Dynamic)
+                // CHECK BOUNDS
                 if (!ClientRectangle.Contains(Point.Round(bullets[i].Position)))
                 {
                     bullets[i].IsActive = false;
@@ -171,9 +172,11 @@ namespace WinFormsApp1
                         return;
                     }
                 }
-                if (damageCooldown > 0)
-                    damageCooldown--;
+
             }
+
+            if (damageCooldown > 0)
+                damageCooldown--;
 
 
 

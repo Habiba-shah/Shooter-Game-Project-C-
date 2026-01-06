@@ -99,6 +99,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
+            BackgroundImage = Properties.Resources.down2;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(916, 594);
             Controls.Add(pictureBox1);
             Controls.Add(HealthBar);

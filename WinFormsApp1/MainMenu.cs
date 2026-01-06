@@ -11,54 +11,44 @@ using WinFormsApp1;
 
 namespace GameProjectOop
 {
-    public partial class MainForm : Form
+    public partial class MainMenu : Form
     {
-
         SoundSystem soundSystem = new SoundSystem();
-        //load krta hy form ko
-        public MainForm()
-        {   
+        public MainMenu()
+        {
             InitializeComponent();
-
-            this.BackgroundImage = GameProjectOop.Properties.Resources.cover;
-            this.BackgroundImageLayout = ImageLayout.Stretch;
             this.WindowState = FormWindowState.Maximized;
-
             CustomizeButtons();
         }
 
-        //buttons ko array mein store krta hy 
         private void CustomizeButtons()
         {
             Button[] buttons = { button1, button2, button3 };
-
             foreach (var btn in buttons)
             {
                 btn.MouseEnter += Button_MouseEnter;
                 btn.MouseLeave += Button_MouseLeave;
             }
         }
-        //hover effect deta hy array mein store button pr
+
         private void Button_MouseEnter(object sender, EventArgs e)
         {
             if (sender is Button btn)
             {
-                btn.BackColor = Color.Red; 
-                btn.ForeColor = Color.Yellow; 
+                btn.BackColor = Color.Red;
+                btn.ForeColor = Color.Yellow;
                 btn.Cursor = Cursors.Hand;
             }
         }
-        //original color pr wapis a jata hy jb curse hataty hn
+
         private void Button_MouseLeave(object sender, EventArgs e)
         {
             if (sender is Button btn)
             {
-                btn.BackColor = Color.DarkRed; 
+                btn.BackColor = Color.DarkRed;
                 btn.ForeColor = Color.White;
             }
         }
-
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -71,16 +61,14 @@ namespace GameProjectOop
             this.Hide();
         }
 
-        private void main_Load(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            soundSystem.PlayLoop(
-        GameProjectOop.Properties.Resources.intro
+            soundSystem.Stop();
+            soundSystem.Play(
+      GameProjectOop.Properties.Resources.whoosh
         );
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
+            HardLevel level = new HardLevel();
+            level.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -94,15 +82,11 @@ namespace GameProjectOop
             this.Hide();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void MainMenu_Load(object sender, EventArgs e)
         {
-            soundSystem.Stop();
-            soundSystem.Play(
-      GameProjectOop.Properties.Resources.whoosh
-        );
-            HardLevel level = new HardLevel();
-            level.Show();
-           
+            soundSystem.PlayLoop(
+                GameProjectOop.Properties.Resources.intro
+            );
         }
     }
 }
